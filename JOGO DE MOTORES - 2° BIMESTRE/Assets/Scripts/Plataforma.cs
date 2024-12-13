@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Plataforma : MonoBehaviour
 {
-    // Start is called before the first frame update
+    JointLimitState2D st;
+    SliderJoint2D sl;
+
     void Start()
     {
-        
+        sl = GetComponent<SliderJoint2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (sl.limitState == JointLimitState2D.LowerLimit || sl.limitState == JointLimitState2D.UpperLimit)
+        {
+            if ( st != sl.limitState)
+            {
+                JointMotor2D mot = sl.motor;
+                mot.motorSpeed *= -1;
+                sl.motor = mot;
+            }
+        }
+        st = sl.limitState;
     }
 }
+   
